@@ -1,0 +1,34 @@
+- name: setup a development machine
+  hosts: 127.0.0.1
+  connection: local
+  become: yes
+  tasks:
+  - name: update packages
+    apt: update_cache=yes
+
+  - name: upgrade packages
+    apt: upgrade=yes
+
+  - name: installing sexy bash
+    command: (cd /tmp && git clone --depth 1 --config core.autocrlf=false https://github.com/twolfson/sexy-bash-prompt && cd sexy-bash-prompt && make install) && source ~/.bashrc
+
+  - name: install apt packages
+    package:
+      name:
+        - git
+        - vim
+        - htop
+        - nmon
+        - terminator
+      state: present
+
+  - name: installing snaps
+    snap:
+      name:
+        - goland
+        - go
+        - pycharm-professional
+        - webstorm
+        - atom
+        - spotify
+      classic: yes
